@@ -1,0 +1,54 @@
+using System;
+using System.Linq;
+
+namespace _06_Equal_Sums
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToArray();
+            int index=-1;
+            bool flag = false;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                
+                int sumLeft = 0;
+                int sumRight = 0;
+
+                for (int j = 0; j < i; j++)
+                {
+                    sumLeft += arr[j];
+                }
+                
+                for (int k = i+1; k < arr.Length; k++)
+                {
+                    sumRight += arr[k];
+                }
+               
+                if (sumRight==sumLeft)
+                {
+                    index = i;
+                    flag = true;
+                    break;
+                }
+                else if (sumLeft!=sumRight)
+                {
+                    flag = false;
+                }
+            }
+
+            if (flag==true)
+            {
+                Console.WriteLine(index);
+            }
+            else if (flag==false)
+            {
+                Console.WriteLine("no");
+            }
+        }
+    }
+}
