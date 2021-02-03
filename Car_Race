@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ME_02_Car_Race
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> times = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToList();
+
+            double left = 0.0;
+            double right = 0.0;
+            int n = times.Count / 2;
+            for (int i = 0; i < n; i++)
+            {
+                if (times[i]>0)
+                {
+                    left += times[i];
+                }
+                else if (times[i]==0)
+                {
+                    left = left * 0.8;
+                }
+            }
+           // Console.WriteLine(left);
+            for (int i = times.Count-1; i > n; i--)
+            {
+                if (times[i]>0)
+                {
+                    right += times[i];
+                }
+                else if (times[i]==0)
+                {
+                    right = right * 0.8;
+                }
+               // Console.WriteLine(right);
+            }
+            //Console.WriteLine(right);
+            if (left<right)
+            {
+                Console.WriteLine($"The winner is left with total time: {left}");
+            }
+            else if (right<left)
+            {
+                Console.WriteLine($"The winner is right with total time: {right}");
+            }
+
+        }
+    }
+}
