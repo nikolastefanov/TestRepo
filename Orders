@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace _03_Orders
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, decimal> prodPrices = new Dictionary<string, decimal>();
+            Dictionary<string, int> prodNames = new Dictionary<string, int>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input=="buy")
+                {
+                    break;
+                }
+
+                string[] tokens = input
+                    .Split(" ")
+                    .ToArray();
+
+                string name = tokens[0];
+                decimal price=decimal.Parse(tokens[1]);
+                int quantity = int.Parse(tokens[2]);
+
+                if (prodNames.ContainsKey(name)==false)
+                {
+                    prodNames.Add(name, quantity);
+                    prodPrices.Add(name, price);
+                }
+                else if (prodNames.ContainsKey(name))
+                {
+                    prodNames[name] += quantity;
+                    prodPrices[name] = price;
+                }
+            }
+
+            foreach (var name in prodNames)
+            {
+                string product = name.Key;
+                int quantity = name.Value;
+                decimal price = prodPrices[product];
+                decimal result = quantity * price;
+
+                Console.WriteLine($"{product} -> {result:F2}");
+            }
+        }
+    }
+}
