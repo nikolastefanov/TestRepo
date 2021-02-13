@@ -1,0 +1,79 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace _09_ForceBook
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string,List<string>> forseSides = new  Dictionary<string,List<string>>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input== "Lumpawaroo")
+                {
+                    break;
+                }
+
+                string[] tokens = input
+                    .Split(" ")
+                    .ToArray();
+
+                string sp = tokens[1];
+                
+                if (sp=="|")
+                {
+                    string side = tokens[0];
+                    string user = tokens[2];
+
+                    if (forseSides.ContainsKey(side)==false)
+                    {
+                        forseSides.Add(side,new List<string>());
+                    }
+                    forseSides[side].Add(user);
+                }
+                else if (sp=="->")
+                {
+                    
+                    string user = tokens[0];
+                    string side = tokens[2];
+
+                    Console.WriteLine(user);
+
+                    foreach (var item in forseSides)
+                    {
+                        //if (item.Value.Contains(user))
+                        //{
+                        //   item.Value.Remove(user);
+                        //}
+
+                        if(forseSides[item.Key].Contains(user))
+                        {
+                            forseSides[item.Key].Remove(user);
+                        }
+
+                    }
+                    forseSides[side].Add(user);
+                    Console.WriteLine($"{user} joins the {forseSides} side!");
+                }
+            }
+
+            foreach (var item in forseSides)
+            {
+                string name = item.Key;
+                int count = item.Value.Count();
+
+                Console.WriteLine($"Side: {name}, Members: {count}");
+
+                foreach (var x in item.Value)
+                {
+                    Console.WriteLine($"! {x}");
+                }
+            }
+        }
+    }
+}
