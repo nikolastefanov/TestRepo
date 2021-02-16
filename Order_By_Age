@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace _07_Order_By_Age
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Order> orders = new List<Order>();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input=="End")
+                {
+                    break;
+                }
+                string[] tokens = input.Split(" ").ToArray();
+
+                string name = tokens[0];
+                int id = int.Parse(tokens[1]);
+                int age=int.Parse(tokens[2]);
+
+                Order order = new Order()
+                {
+                    Name = name,
+                    Id = id,
+                    Age=age,
+                };
+
+                orders.Add(order);
+            }
+
+            orders = orders.OrderBy(x => x.Age).ToList();
+
+            foreach (var x in orders)
+            {
+                Console.WriteLine($"{x.Name} with ID: {x.Id} is {x.Age} years old.");
+            }
+        }
+
+        class Order
+        {
+            public string Name { get; set; }
+            public int Id { get; set; }
+            public int Age { get; set; }
+        }
+    }
+}
