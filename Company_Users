@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace _08_Company_Users
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<string, List<string>> orders = new Dictionary<string, List<string>>();
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (line == "End")
+                {
+                    break;
+                }
+
+                string[] tokens = line
+                    .Split(" -> ")
+                    .ToArray();
+
+                string company = tokens[0];
+                string id = tokens[1];
+
+                if (orders.ContainsKey(company) == false)
+                {
+                    orders.Add(company, new List<string>());
+                    orders[company].Add(id);
+                }
+                else if (orders[company].Contains(id) == false)
+                {
+                    orders[company].Add(id);
+                }
+            }
+
+
+            Dictionary<string, List<string>> filtred = orders
+               .OrderBy(x => x.Key)
+               .ThenBy(x=>x.Value)
+              .ToDictionary(x => x.Key, x => x.Value);
+            foreach (var item in filtred)
+            {
+                Console.WriteLine(item.Key);
+
+                foreach (var user in item.Value)
+                {
+                    Console.WriteLine($"-- {user}");
+                }
+            }
+        }
+    }
+}

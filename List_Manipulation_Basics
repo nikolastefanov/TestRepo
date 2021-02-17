@@ -1,0 +1,57 @@
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace _05_List_Manipulation_Basics
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<int> nums = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToList();
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+
+                if (line == "end")
+                {
+                    break;
+                }
+
+                string[] tokens = line.Split(" ").ToArray();
+
+                string command = tokens[0];
+
+                switch (command)
+                {
+                    case "Add":
+                        int numberAdd = int.Parse(tokens[1]);
+                        nums.Add(numberAdd);
+                        break;
+                    case "RemoveAt":
+                        int indexRemove = int.Parse(tokens[1]);
+                        nums.RemoveAt(indexRemove);
+                        break;
+                    case "Remove":
+                        int numberRemove = int.Parse(tokens[1]);
+                        nums.Remove(numberRemove);
+                        break;
+                    case "Insert":
+                        int numberInsert = int.Parse(tokens[1]);
+                        int indexInsert = int.Parse(tokens[2]);
+                        nums.Insert(indexInsert, numberInsert);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+                Console.WriteLine(string.Join(" ",nums));
+            
+        }
+    }
+}
