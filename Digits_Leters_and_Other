@@ -1,0 +1,42 @@
+using System;
+using System.Linq;
+using System.Text;
+
+
+namespace _05_Digits_Leters_and_Other
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string line = Console.ReadLine();
+
+            char[] symbols = line.ToCharArray();
+
+            StringBuilder digit = new StringBuilder();
+            StringBuilder leter = new StringBuilder();
+            StringBuilder other = new StringBuilder();
+
+            foreach (var s in symbols)
+            {
+                if (char.IsDigit(s))
+                {
+                    digit.Append(s);
+                }
+                else if (char.IsLetter(s))
+                {
+                    leter.Append(s);
+                }
+                else
+                {
+                    other.Append(s);
+                }
+                
+            }
+
+            Console.WriteLine(digit);
+            Console.WriteLine(leter);
+            Console.WriteLine(other);
+        }
+    }
+}
