@@ -1,0 +1,113 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace _10_SoftUni_Course_Planning
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<string> lessons = Console.ReadLine()
+                 .Split(", ")
+                 .ToList();
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (line== "course start")
+                {
+                    break;
+                }
+                string[] input = line
+                    .Split(":")
+                    .ToArray();
+
+                string command = input[0];
+
+                if (command == "Add")
+                {
+                    string lessonTitle = input[1];
+                    if (!lessons.Contains(lessonTitle))
+                    {
+                        lessons.Add(lessonTitle);
+                    }
+                }
+                else if (command == "Insert")
+                {
+                    string lessonTitle = input[1];
+                    int index = int.Parse(input[2]);
+                    if (lessons.Contains(lessonTitle)==false)
+                    {
+                        lessons.Insert(index, lessonTitle);
+                    }
+                }
+                else if (command == "Remove")
+                {
+                    string lessonTitle = input[1];
+                    if (lessons.Contains(lessonTitle))
+                    {
+                        int index = lessons.IndexOf(lessonTitle);
+                        if (lessons.Contains(lessonTitle+"-Exercise"))
+                        {
+                            lessons.RemoveAt(index + 1);
+                        }
+                        lessons.Remove(lessonTitle);
+                    }
+                }
+                else if (command == "Swap")
+                {
+                    string firstTitle = input[1];
+                    string secondTitle = input[2];
+                    
+                    
+                        int indexFirst = lessons.IndexOf(firstTitle);
+                        int indexSecond = lessons.IndexOf(secondTitle);
+                        if (indexFirst == -1 || indexSecond == -1)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            lessons[indexFirst] = secondTitle;
+                            lessons[indexSecond]= firstTitle;
+
+                            if (lessons.Contains(firstTitle+"-Exercise"))
+                            {
+                                string lessonFirstExercise = lessons[indexFirst+1];
+                                lessons.RemoveAt(indexSecond + 1);
+                                lessons.Insert(indexSecond + 1, lessonFirstExercise);
+                            }
+                            if (lessons.Contains(secondTitle+"-Exercise"))
+                            {
+                                string lessonSecondExercise = lessons[indexSecond + 1];
+                                lessons.RemoveAt(indexFirst + 1);
+                                lessons.Insert(indexFirst + 1, lessonSecondExercise);
+                            }
+                        }
+                    
+                }
+                else if (command == "Exercise")
+                {
+                    string lessonTitle = input[1];
+                    string exercise = lessonTitle+"-Exercise";
+                    if (lessons.Contains(lessonTitle)==false)
+                    {
+                        lessons.Add(lessonTitle);
+                        lessons.Add(exercise);
+                    }
+                    if (lessons.Contains(lessonTitle) && lessons.Contains(exercise)==false)
+                    {
+                        int index = lessons.IndexOf(lessonTitle);
+                        lessons.Insert(index + 1, exercise);
+                    }
+                }
+
+            }
+            for (int i = 0; i < lessons.Count; i++)
+            {
+                Console.WriteLine($"{i+1}.{lessons[i]}");
+            }
+        }
+    }
+}
