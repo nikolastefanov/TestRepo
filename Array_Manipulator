@@ -1,0 +1,288 @@
+using System;
+using System.Linq;
+
+
+
+namespace _11_Array_Manipulator
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] arr = Console.ReadLine()
+                .Split(" ")
+                .Select(int.Parse)
+                .ToArray();
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                if (input=="end")
+                {
+                    break;
+                }
+
+                string[] tokens = input
+                    .Split(" ")
+                    .ToArray();
+
+                if (tokens[0]== "exchange")
+                {
+                    int index = int.Parse(tokens[1]);
+                    if (index>=0 && index<=arr.Length-1)
+                    {
+                        ChangeArr(arr, index);
+                        
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid index");
+                        continue;
+                    }
+                }
+                if (tokens[0]=="max")
+                {
+                    if (tokens[1]=="odd")
+                    {
+                        int maxOdd = FinMaxOdd(arr);
+                        if (maxOdd == -1)
+                        {
+                            Console.WriteLine("“No matches");
+                        }
+                        else
+                        {
+                            Console.WriteLine(maxOdd);
+                        }
+                    }
+                    else if (tokens[1]=="even")
+                    {
+                        int maxEven = FinMaxEven(arr);
+                        if (maxEven == -1)
+                        {
+                            Console.WriteLine("“No matches");
+                        }
+                        else
+                        {
+                            Console.WriteLine(maxEven);
+                        }
+                    }
+                }
+                if (tokens[0] == "min")
+                {
+                    if (tokens[1] == "odd")
+                    {
+                        int minOdd = FinMinOdd(arr);
+                        if (minOdd == -1)
+                        {
+                            Console.WriteLine("“No matches");
+                        }
+                        else
+                        {
+                            Console.WriteLine(minOdd);
+                        }
+                    }
+                    else if (tokens[1] == "even")
+                    {
+                        int minEven = FinminEven(arr);
+                        if (minEven == -1)
+                        {
+                            Console.WriteLine("“No matches");
+                        }
+                        else
+                        {
+                            Console.WriteLine(minEven);
+                        }
+                    }
+                }
+                if (tokens[0]=="first")
+                {
+                    int count = int.Parse(tokens[1]);
+                    if (count > arr.Length)
+                    {
+                        Console.WriteLine("Invalid count");
+                        continue;
+                    }
+                    string typeNumber = tokens[2];
+                    int[] result = new int[0];
+                    if (typeNumber == "odd")
+                    {
+                        result = GetFirstCountEvenOrOddNumbers(arr, count, 1);
+                    }
+                    else
+                    {
+                        result = GetFirstCountEvenOrOddNumbers(arr, count, 0);
+                    }
+                    Console.WriteLine("[" + string.Join(", ", result) + "]");
+                }
+                if (tokens[0]=="last")
+                {
+                    int count = int.Parse(tokens[1]);
+                    if (count > arr.Length)
+                    {
+                        Console.WriteLine("Invalid count");
+                        continue;
+                    }
+                    string typeNumber = tokens[2];
+                    int[] result = new int[0];
+                    if (typeNumber == "odd")
+                    {
+                        result = GetLastCountEvenOrOddNumbers(arr, count, 1);
+                    }
+                    else
+                    {
+                        result = GetLastCountEvenOrOddNumbers(arr, count, 0);
+                    }
+                    Console.WriteLine("[" + string.Join(", ", result) + "]");
+                }
+            }
+
+            Console.WriteLine("[" + string.Join(", ", arr) + "]");
+        }
+
+        private static int[] GetLastCountEvenOrOddNumbers(int[] arr, int count, int divisionResult)
+        {
+            int[] arrResult = new int[count];
+            int currentCount = 0;
+            for (int i = arr.Length - 1; i >= 0; i--)
+            {
+                if (arr[i] % 2 == divisionResult && currentCount < count)
+                {
+                    arrResult[currentCount] = arr[i];
+                    currentCount++;
+                }
+            }
+            if (currentCount >= count)
+            {
+                return arrResult.Reverse().ToArray();
+            }
+            else
+            {
+                int[] temp = new int[currentCount];
+                Array.Copy(arrResult, temp, currentCount);
+                return temp.Reverse().ToArray();
+            }
+        }
+
+        private static int[] GetFirstCountEvenOrOddNumbers(int[] arr, int count, int divisionResult)
+        {
+
+            int[] arrResult = new int[count];
+            int currentCount = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] % 2 == divisionResult && currentCount < count)
+                {
+                    arrResult[currentCount] = arr[i];
+                    currentCount++;
+                }
+            }
+            // currentCount>count
+            if (currentCount >= count)
+            {
+                return arrResult;
+            }
+            else
+            {
+                int[] temp = new int[currentCount];
+                Array.Copy(arrResult, temp, currentCount);
+                return temp;
+            }
+        }
+
+        private static void ChangeArr(int[] arr, int index)
+        {
+
+            for (int i = 0; i < index+1; i++)
+            {
+                int firstNum = arr[0];
+
+                for (int j = 0; j < arr.Length-1; j++)
+                {
+                    arr[j] = arr[j + 1];
+                }
+                arr[arr.Length - 1] = firstNum;
+            }
+            //Console.WriteLine(string.Join(" ",arr));
+            
+
+        }
+
+        private static int FinminEven(int[] arr)
+        {
+            int minEven = -1;
+
+            int minEl = 1000000;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] % 2 == 0)
+                {
+                    if (minEl >= arr[i])
+                    {
+                        minEl = arr[i];
+                        minEven = i;
+                    }
+                }
+            }
+            return minEven;
+        }
+
+        private static int FinMinOdd(int[] arr)
+        {
+
+            int minOdd = -1;
+
+            int minEl = 1000000;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] % 2 != 0)
+                {
+                    if (minEl >= arr[i])
+                    {
+                        minEl = arr[i];
+                        minOdd = i;
+                    }
+                }
+            }
+            return minOdd;
+        }
+
+        private static int FinMaxEven(int[] arr)
+        {
+            int maxEven = -1;
+
+            int maxEl = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] % 2 == 0)
+                {
+                    if (maxEl <= arr[i])
+                    {
+                        maxEl = arr[i];
+                        maxEven = i;
+                    }
+                }
+            }
+            return maxEven;
+        }
+
+        private static int FinMaxOdd(int[] arr)
+        {
+            int maxOdd = -1;
+            
+            int maxEl =0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i]%2!=0)
+                {
+                    if (maxEl<=arr[i])
+                    {
+                        maxEl = arr[i];
+                        maxOdd = i;
+                    }
+                }
+            }
+            return maxOdd;
+        }
+    }
+}
