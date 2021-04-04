@@ -1,0 +1,46 @@
+using System;
+
+namespace _11_Math_Operation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int a = int.Parse(Console.ReadLine());
+            string @operator = Console.ReadLine();
+            int b = int.Parse(Console.ReadLine());
+
+            decimal result = Calculate(a, @operator, b);
+
+            Console.WriteLine("{0:F0}",result);
+        }
+
+        private static decimal Calculate(int a, string @operator, int b)
+        {
+            decimal result = 0.0M;
+            switch (@operator)
+            {
+                case "+":
+                    result = a + b;
+                    break;
+                case "-":
+                    result = a - b;
+                    break;
+                case "*":
+                    result = a *b;
+                    break;
+                case "/":
+                    {
+                        if (b!=0)
+                        {
+                            result = a / b;
+                        }
+                        break;
+                    }
+                default:
+                    break;
+            }
+            return result;
+        }
+    }
+}
