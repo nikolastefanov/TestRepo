@@ -1,0 +1,120 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace _06_Vechicle_Catalogue
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Vehicle> vehicles = new List<Vehicle>();
+
+            while (true)
+            {
+                string line = Console.ReadLine();
+                if (line=="End")
+                {
+                    break;
+                }
+                string[] tokens = line.Split(" ").ToArray();
+                string type = tokens[0];
+                string model = tokens[1];
+                string color = tokens[2];
+                int power = int.Parse(tokens[3]);
+
+                if (power>1000 || power<0)
+                {
+                    continue;
+                }
+
+                Vehicle vehicle = new Vehicle(type, model, color, power);
+
+                if (vehicles.Count>50)
+                {
+                    break;
+                }
+                vehicles.Add(vehicle);
+            }
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+                if (input== "Close the Catalogue")
+                {
+                    break;
+                }
+
+                foreach (Vehicle vehicle in vehicles)
+                {
+                    if (vehicle.Model == input)
+                    {
+                        string typeVech = string.Empty;
+                        if (vehicle.Type == "car")
+                        {
+                            typeVech = "Car";
+                        }
+                        else if (vehicle.Type == "truck")
+                        {
+                            typeVech = "Truck";
+                        }
+
+                        Console.WriteLine("Type: {0}", typeVech);
+                        Console.WriteLine("Model: {0}", vehicle.Model);
+                        Console.WriteLine("Color: {0}", vehicle.Color);
+                        Console.WriteLine("Horsepower: {0}", vehicle.Power);
+                    }
+                }
+            }
+
+            int sumCar = 0;
+            int sumTruck = 0;
+            int countCar = 0;
+            int countTruck = 0;
+            double powerCar = 0;
+            double powerTruck = 0;
+
+            foreach (Vehicle vehicle in vehicles)
+            {
+                if (vehicle.Type=="car")
+                {
+                    sumCar += vehicle.Power;
+                    countCar++;
+                }
+                if (vehicle.Type=="truck")
+                {
+                    sumTruck += vehicle.Power;
+                    countTruck++;
+                }
+            }
+
+            if (countCar>0)
+            {
+                powerCar = Math.Round((double)sumCar / countCar, 2);
+            }
+            if (countTruck>0)
+            {
+                powerTruck = Math.Round((double)sumTruck / countTruck, 2);
+            }
+            Console.WriteLine("Cars have average horsepower of: {0:F2}.", powerCar);
+            Console.WriteLine("Trucks have average horsepower of: {0:F2}.", powerTruck);
+        }
+
+        class Vehicle
+        {
+            public Vehicle(string type,string model,string color,int power)
+            {
+                Type = type;
+                Model = model;
+                Color = color;
+                Power = power;
+
+            }
+            public string Type { get; set; }
+            public string Model { get; set; }
+            public string Color { get; set; }
+            public int Power { get; set; }
+        }
+    }
+}
