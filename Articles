@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace _02_Articles
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Article> articles = new List<Article>();
+
+            string[] articleProp = Console.ReadLine()
+                .Split(", ")
+                .ToArray();
+
+            string title = articleProp[0];
+            string content = articleProp[1];
+            string autor = articleProp[2];
+
+            //Console.WriteLine("{0} {1} {2}",title,content,autor);
+
+            Article article = new Article(title, content, autor);
+            articles.Add(article);
+
+            int commandC = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < commandC; i++)
+            {
+                string[] splitInput = Console.ReadLine()
+                    .Split(": ")
+                    .ToArray();
+
+                string command = splitInput[0];
+
+                if (command == "Edit")
+                {
+                    string newContent = splitInput[1];
+                    // article.Edit(newContent);
+                    article.Content = newContent;
+                }
+                else if (command == "ChangeAuthor")
+                {
+                    string newAutor = splitInput[1];
+                    //article.ChangeAutor(newAutor);
+                    article.Autor = newAutor;
+                }
+                else if (command=="Rename")
+                {
+                    string newTitle = splitInput[1];
+                    //article.Rename(newTitle);
+                    article.Title = newTitle;
+                }
+            }
+
+            foreach (var x in articles)
+            {
+                Console.WriteLine($"{x.Title} - {x.Content}: {x.Autor}");
+            }
+        }
+
+        class Article
+        {
+            public Article(string title,string content,string autor)
+            {
+                Title = title;
+                Content = content;
+                Autor = autor;
+            }
+            public string Title { get; set; }
+            public string Content { get; set; }
+            public string Autor { get; set; }
+        }
+    }
+}
